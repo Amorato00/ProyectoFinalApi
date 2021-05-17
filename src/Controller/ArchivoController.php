@@ -53,8 +53,8 @@ class ArchivoController extends AbstractController
     }
 
 
-    /**
-     * @Route("/api/add/archivo", name="add_archivo", methods={"POST"})
+   /**
+     * @Route("/api/add/archivo", name="addArchivo", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */

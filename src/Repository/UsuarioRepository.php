@@ -50,6 +50,14 @@ class UsuarioRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function colaborador(): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u.role = 4');
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function colaboradorByText(): array
     {
         $qb = $this->createQueryBuilder('u')

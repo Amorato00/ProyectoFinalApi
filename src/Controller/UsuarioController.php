@@ -47,6 +47,37 @@ class UsuarioController  extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
+  /**
+     * API
+     * @Route ("/api/colaborador", name="getColaborador", methods={"GET"})
+     */
+    public function apiColaboradorGet(): JsonResponse
+    {
+        $usuarioRe = $this->getDoctrine()->getRepository(Usuario::class);
+        $usuarios = $usuarioRe->colaborador();
+        $data = [];
+
+        foreach ($usuarios as $usuario) {
+            $data[] = [
+                'id' => $usuario->getId(),
+                'username' => $usuario->getUsername(),
+                'nombre' => $usuario->getNombre(),
+                'apellidos' => $usuario->getApellidos(),
+                'fechaNacimiento' => $usuario->getFechaNacimiento()?$usuario->getFechaNacimiento()->format("Y-m-d"):null,
+                'email' => $usuario->getEmail(),
+                'dni' => $usuario->getDNI(),
+                'telefono' => $usuario->getTelefono(),
+                'fotoPerfil' => $usuario->getFotoPerfil(),
+                'role' => $usuario->getRole()?$usuario->getRole()->getId():null,
+                'estado' => $usuario->getEstado()?$usuario->getEstado()->getName():null,
+                'seccion' => $usuario->getSeccion()?$usuario->getSeccion()->getName():null,
+                'direccion' => $usuario->getDireccion()?$usuario->getDireccion():null,
+                'iban' => $usuario->getIban()?$usuario->getIban():null,
+            ];
+        }
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
     /**
      * API
      * @Route ("/api/usuario/search/socio/{search}", name="getUsuarioSearchSocio", methods={"GET"})

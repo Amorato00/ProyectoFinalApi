@@ -53,6 +53,11 @@ class Descuento
      */
     private $usuario;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Usuario::class)
+     */
+    private $colaborador;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Descuento
     public function setUsuario(?Usuario $usuario): self
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    public function getColaborador(): ?Usuario
+    {
+        return $this->colaborador;
+    }
+
+    public function setColaborador(?Usuario $colaborador): self
+    {
+        $this->colaborador = $colaborador;
 
         return $this;
     }

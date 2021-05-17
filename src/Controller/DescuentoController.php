@@ -32,7 +32,8 @@ class DescuentoController extends AbstractController
                 "numDescuento" => $descuento->getNumDescuento(),
                 "titulo" => $descuento->getTitulo(),
                 "imagen" => $descuento->getImagen(),
-                "usuario" => $descuento->getUsuario()->getId()
+                "usuario" => $descuento->getUsuario()->getId(),
+                "colaborador" => $descuento->getColaborador()->getId()
             ];
         }
         return new JsonResponse($data, Response::HTTP_OK);
@@ -56,7 +57,8 @@ class DescuentoController extends AbstractController
                 "numDescuento" => $descuento->getNumDescuento(),
                 "titulo" => $descuento->getTitulo(),
                 "imagen" => $descuento->getImagen(),
-                "usuario" => $descuento->getUsuario()->getId()
+                "usuario" => $descuento->getUsuario()->getId(),
+                "colaborador" => $descuento->getColaborador()->getId(),
             ];
         }
         return new JsonResponse($data, Response::HTTP_OK);
@@ -80,7 +82,8 @@ class DescuentoController extends AbstractController
                 "numDescuento" => $descuento->getNumDescuento(),
                 "titulo" => $descuento->getTitulo(),
                 "imagen" => $descuento->getImagen(),
-                "usuario" => $descuento->getUsuario()->getId()
+                "usuario" => $descuento->getUsuario()->getId(),
+                "colaborador" => $descuento->getColaborador()->getId(),
             ];
         }
         return new JsonResponse($data, Response::HTTP_OK);
@@ -103,14 +106,15 @@ class DescuentoController extends AbstractController
         $usuario = $usuarioRe->find($data['usuario']);
         $titulo = $data['titulo'];
         $imagen = $data['imagen'];
+        $colaborador = $usuarioRe->find($data['colaborador']);
 
         if (empty($texto) || empty($fechaInicio) || empty($fechaFin) || empty($numDescuento) || empty($usuario)
-            || empty($titulo) || empty($imagen)) {
+            || empty($titulo) || empty($imagen) || empty($colaborador)) {
             throw new NotFoundHttpException('Expecting mandatory parameters!');
         }
 
         $descuentoRe = $this->getDoctrine()->getRepository(Descuento::class);
-        $descuentoRe->saveDescuento($fechaInicio, $texto, $usuario, $fechaFin, $numDescuento, $titulo, $imagen);
+        $descuentoRe->saveDescuento($fechaInicio, $texto, $usuario, $fechaFin, $numDescuento, $titulo, $imagen, $colaborador);
 
         return new JsonResponse(['status' => 'Descuento creado!'], Response::HTTP_CREATED);
     }
@@ -143,7 +147,7 @@ class DescuentoController extends AbstractController
         empty($data['usuario']) ? true : $descuento->setUsuario($usuarioRes->find($data['usuario']));
         empty($data['titulo']) ? true : $descuento->setTitulo($data['titulo']);
         empty($data['imagen']) ? true : $descuento->setImagen($data['imagen']);
-
+        empty($data['colaborador']) ? true : $descuento->setColaborador($usuarioRes->find($data['colaborador']));
         $descuentoRe->updateDescuento($descuento);
 
         return new JsonResponse(['status' => 'Descuento actualizado!'], Response::HTTP_CREATED);

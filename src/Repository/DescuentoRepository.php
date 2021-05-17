@@ -26,7 +26,7 @@ class DescuentoRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
-    public function saveDescuento($fechaInicio, $texto, $usuario, $fechaFin, $numDescuento, $titulo, $imagen) {
+    public function saveDescuento($fechaInicio, $texto, $usuario, $fechaFin, $numDescuento, $titulo, $imagen, $colaborador) {
         $newDescuento = new Descuento();
 
         $newDescuento
@@ -36,7 +36,8 @@ class DescuentoRepository extends ServiceEntityRepository
             ->setFechaFin($fechaFin)
             ->setImagen($imagen)
             ->setTitulo($titulo)
-            ->setNumDescuento($numDescuento);
+            ->setNumDescuento($numDescuento)
+            ->setColaborador($colaborador);
 
         $this->manager->persist($newDescuento);
         $this->manager->flush();
